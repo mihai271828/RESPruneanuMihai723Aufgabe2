@@ -2,6 +2,7 @@ import Model.Charakter;
 import Model.Produkt;
 import Repository.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -114,6 +115,22 @@ public class Controller {
     public List<Produkt> getAllProdukt() {
         return ProduktRepository.getAll();
     }
+
+
+    public  List<Charakter> filterVereineByStadt(String Herkunft) {
+        List<Charakter> filtered = new ArrayList<>();
+        // Retrieve all Vereine entities from the repository
+        List<Charakter> allVereine = CharakterRepository.getAll();
+        // Loop through each entity and add those matching the criteria
+        for (Charakter Charakter : allVereine) {
+            if (((Charakter) Charakter).getHerkunftsdorf().equalsIgnoreCase(Herkunft)) {
+                filtered.add(Charakter);
+            }
+        }
+        return filtered;
+    }
+
+
 
 
 

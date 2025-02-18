@@ -3,10 +3,10 @@ package Model;
 public class Produkt implements HasId{
     private Integer id;
     private String Name;
-    private int Preis;
+    private double Preis;
     private String Herkunftsregion;
 
-    public Produkt(Integer id,String name, int preis, String herkunftsregion) {
+    public Produkt(Integer id,String name, double preis, String herkunftsregion) {
         Name = name;
         Preis = preis;
         Herkunftsregion = herkunftsregion;
@@ -29,11 +29,11 @@ public class Produkt implements HasId{
         Name = name;
     }
 
-    public int getPreis() {
+    public double getPreis() {
         return Preis;
     }
 
-    public void setPreis(int preis) {
+    public void setPreis(double preis) {
         Preis = preis;
     }
 

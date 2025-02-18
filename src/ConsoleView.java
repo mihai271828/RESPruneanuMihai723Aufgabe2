@@ -3,6 +3,8 @@ import Model.Produkt;
 import Repository.Repository;
 import Repository.InMemoryRepository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -112,11 +114,28 @@ public class ConsoleView {
         System.out.println("\n[Create Charakter]");
         System.out.print("Enter ID for Charakter: ");
         int id = Integer.parseInt(scanner.nextLine());
-        // TODO: Replace the following with actual prompts for Charakter properties and instantiation.
-        Charakter entity = null;
-        System.out.println("Refactor createCharakter() to instantiate a concrete Charakter entity.");
-        // Once instantiated, call the controller:
-        // controller.createCharakter(entity);
+        System.out.print("Enter Name for Charakter: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Herkunftsdorf for Charakter: ");
+        String herkunftsdorf = scanner.nextLine();
+        List<Produkt> products=new ArrayList<>();
+        while(true){
+            System.out.println("Would you like to add a product? (Y/N)");
+            String answer = scanner.nextLine();
+            if (answer.equals("Y")) {
+                System.out.print("Enter Name for Product to add: ");
+                String nameofSpieler = scanner.nextLine();
+                for (Produkt sp : controller.getAllProdukt()) {
+                    if (sp.getName().equals(nameofSpieler)) {
+                        products.add(sp);
+                    }
+                }
+
+            }else break;
+        }
+        Charakter car=new Charakter(id, name, herkunftsdorf, products);
+        controller.createCharakter(car);
+
     }
 
     /**
@@ -149,10 +168,75 @@ public class ConsoleView {
             System.out.println("Charakter with ID " + id + " not found.");
             return;
         }
-        // TODO: Update the properties of the retrieved entity.
-        System.out.println("Refactor updateCharakter() to modify the concrete Charakter entity.");
-        // After modification, call:
-        // controller.updateCharakter(entity);
+        System.out.print("Enter new Name for Charakter to update: ");
+        String name = scanner.nextLine();
+        entity.setName(name);
+        System.out.println("Enter new Herkunftsdorf for Charakter to update: ");
+        String herkunftsdorf = scanner.nextLine();
+        entity.setHerkunftsdorf(herkunftsdorf);
+
+        List<Produkt> spielerList = entity.getGekaufteprod();
+
+        // Adding Spieler
+        while (true) {
+            System.out.println("Would you like to add a Produkt? (Y/N)");
+            String option = scanner.nextLine();
+            if (option.equalsIgnoreCase("Y")) {
+                System.out.print("Enter Produkt Name to add: ");
+                String spielerName = scanner.nextLine();
+                Produkt spielerToAdd = null;
+
+                // Find the Spieler by name from your repository/controller
+                for (Produkt sp : controller.getAllProdukt()) {
+                    if (sp.getName().equalsIgnoreCase(spielerName)) {
+                        spielerToAdd = sp;
+                        break;
+                    }
+                }
+
+                if (spielerToAdd != null) {
+                    if (!spielerList.contains(spielerToAdd)) {
+                        spielerList.add(spielerToAdd);
+                        System.out.println("Spieler " + spielerName + " added.");
+                    } else {
+                        System.out.println("Spieler " + spielerName + " is already in the list.");
+                    }
+                } else {
+                    System.out.println("Spieler " + spielerName + " not found.");
+                }
+            } else {
+                break;
+            }
+        }
+
+        // Removing Spieler
+        while (true) {
+            System.out.print("Would you like to remove a Produkt? (Y/N) ");
+            String option = scanner.nextLine();
+            if (option.equalsIgnoreCase("Y")) {
+                System.out.print("Enter Produkt Name to remove: ");
+                String spielerNameToRemove = scanner.nextLine();
+                boolean removed = false;
+
+                // Using an iterator to safely remove elements
+                Iterator<Produkt> iterator = spielerList.iterator();
+                while (iterator.hasNext()) {
+                    Produkt sp = iterator.next();
+                    if (sp.getName().equalsIgnoreCase(spielerNameToRemove)) {
+                        iterator.remove();
+                        removed = true;
+                        System.out.println("Produkt " + spielerNameToRemove + " removed.");
+                    }
+                }
+
+                if (!removed) {
+                    System.out.println("Produkt " + spielerNameToRemove + " not found in the gekaufteprod.");
+                }
+            } else {
+                break;
+            }
+        }
+        controller.updateCharakter(entity);
     }
 
     /**
@@ -191,11 +275,15 @@ public class ConsoleView {
         System.out.println("\n[Create Produkt]");
         System.out.print("Enter ID for Produkt: ");
         int id = Integer.parseInt(scanner.nextLine());
-        // TODO: Replace with prompts for Produkt properties and instantiation.
-        Produkt entity = null;
-        System.out.println("Refactor createProdukt() to instantiate a concrete Produkt entity.");
-        // Once instantiated, call:
-        // controller.createProdukt(entity);
+        System.out.print("Enter Name for Produkt: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Preis for Produkt: ");
+        double preis = Double.parseDouble(scanner.nextLine());
+        System.out.print("Enter Herkunftsregion for Produkt: ");
+        String herkunftsregion = scanner.nextLine();
+        Produkt prod=new Produkt(id,name,preis,herkunftsregion);
+       controller.createProdukt(prod);
+
     }
 
     /**
@@ -228,10 +316,17 @@ public class ConsoleView {
             System.out.println("Produkt with ID " + id + " not found.");
             return;
         }
-        // TODO: Update the properties of the retrieved entity.
-        System.out.println("Refactor updateProdukt() to modify the concrete Produkt entity.");
-        // After modification, call:
-        // controller.updateProdukt(entity);
+        System.out.println("Enter new Name: ");
+        String newName = scanner.nextLine();
+        entity.setName(newName);
+        System.out.println("Enter new Preis: ");
+        double newPreis = Double.parseDouble(scanner.nextLine());
+        entity.setPreis(newPreis);
+        System.out.println("Enter new Herkunftsregion: ");
+        String newHerkunftsregion = scanner.nextLine();
+        entity.setHerkunftsregion(newHerkunftsregion);
+        controller.updateProdukt(entity);
+
     }
 
     /**
