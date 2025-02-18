@@ -3,6 +3,8 @@ import Model.Produkt;
 import Repository.Repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
@@ -131,6 +133,35 @@ public class Controller {
     }
 
 
+
+
+    public List<Produkt>sortProductsForCustomer(int CharId, boolean ascending) {
+        Charakter customer = getCharakter(CharId);
+        if (customer == null) {
+            return new ArrayList<>();
+        }
+
+        List<Produkt> products = new ArrayList<>();
+
+        List<Produkt> produkte=getAllProdukt();
+        for(Produkt produkt : produkte) {
+            if(customer.getGekaufteprod().contains(produkt)) {
+                products.add(produkt);
+            }
+        }
+
+        Comparator<Produkt> comparator = Comparator.comparing(Produkt::getPreis);
+
+        // Reverse the comparator if descending order is requested.
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        // Sort the products using the comparator.
+        Collections.sort(products, comparator);
+
+        return products;
+    }
 
 
 
