@@ -119,7 +119,7 @@ public class Controller {
     }
 
 
-    public  List<Charakter> filterVereineByStadt(String Herkunft) {
+    public  List<Charakter> filterCharakter(String Herkunft) {
         List<Charakter> filtered = new ArrayList<>();
         // Retrieve all Vereine entities from the repository
         List<Charakter> allVereine = CharakterRepository.getAll();
@@ -135,7 +135,10 @@ public class Controller {
 
 
 
-    public List<Produkt>sortProductsForCustomer(int CharId, boolean ascending) {
+
+
+
+    public List<Produkt>sortProductsForChark(int CharId, boolean ascending) {
         Charakter customer = getCharakter(CharId);
         if (customer == null) {
             return new ArrayList<>();
@@ -162,6 +165,7 @@ public class Controller {
 
         return products;
     }
+
 
 
 

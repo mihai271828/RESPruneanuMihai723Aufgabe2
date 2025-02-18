@@ -15,6 +15,160 @@ public class ConsoleView {
         Controller controller=new Controller(CharakterRepo,ProduktRepo);
         ConsoleView console=new ConsoleView(controller);
         console.start();
+
+
+
+        List<Produkt> produkte = new ArrayList<>();
+        produkte.add(new Produkt(1,"Kunai", 50.0, "Konoha"));
+        produkte.add(new Produkt(2,"Shuriken", 30.0, "Konoha"));
+        produkte.add(new Produkt(3,"Schwert", 200.0, "Kirigakure"));
+        produkte.add(new Produkt(4,"Heiltrank", 100.0, "Sunagakure"));
+        produkte.add(new Produkt(5,"Sprengsiegel", 75.0, "Iwagakure"));
+        produkte.add(new Produkt(6,"Riesenfächer", 300.0, "Sunagakure"));
+        produkte.add(new Produkt(7,"Giftklinge", 150.0, "Kirigakure"));
+        produkte.add(new Produkt(8,"Explosionskugel", 250.0, "Iwagakure"));
+        produkte.add(new Produkt(9,"Schattendolch", 180.0, "Konoha"));
+        produkte.add(new Produkt(10,"Wasserperle", 90.0, "Kirigakure"));
+
+        // Initialisierung der Charaktere
+        List<Charakter> charaktere = new ArrayList<>();
+
+        Charakter c1 = new Charakter(1, "Naruto Uzumaki", "Konoha",new ArrayList<>());
+        c1.add(produkte.get(0)); // Kunai
+        c1.add(produkte.get(3)); // Heiltrank
+        c1.add(produkte.get(8)); // Schattendolch
+        c1.add(produkte.get(5)); // Riesenfächer
+
+        Charakter c2 = new Charakter(2, "Gaara", "Sunagakure",new ArrayList<>());
+        c2.add(produkte.get(2)); // Schwert
+        c2.add(produkte.get(4)); // Sprengsiegel
+        c2.add(produkte.get(6)); // Giftklinge
+        c2.add(produkte.get(1)); // Shuriken
+
+        Charakter c3 = new Charakter(3, "Kisame Hoshigaki", "Kirigakure",new ArrayList<>());
+        c3.add(produkte.get(1)); // Shuriken
+        c3.add(produkte.get(2)); // Schwert
+        c3.add(produkte.get(3)); // Heiltrank
+        c3.add(produkte.get(7)); // Explosionskugel
+        c3.add(produkte.get(9)); // Wasserperle
+
+        Charakter c4 = new Charakter(4, "Deidara", "Iwagakure",new ArrayList<>());
+        c4.add(produkte.get(0)); // Kunai
+        c4.add(produkte.get(4)); // Sprengsiegel
+        c4.add(produkte.get(7)); // Explosionskugel
+        c4.add(produkte.get(9)); // Wasserperle
+
+        Charakter c5 = new Charakter(5, "Itachi Uchiha", "Konoha",new ArrayList<>());
+        c5.add(produkte.get(8)); // Schattendolch
+        c5.add(produkte.get(6)); // Giftklinge
+        c5.add(produkte.get(2)); // Schwert
+        c5.add(produkte.get(7)); // Explosionskugel
+
+        charaktere.add(c1);
+        charaktere.add(c2);
+        charaktere.add(c3);
+        charaktere.add(c4);
+        charaktere.add(c5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private final Controller controller;
@@ -71,6 +225,12 @@ public class ConsoleView {
                 case "10":
                     listAllProdukt();
                     break;
+                case "11":
+                    filterCharakter();
+                    break;
+                    case "12":
+                        sortProductsForCharakter();
+                        break;
                 case "0":
                     exit = true;
                     break;
@@ -98,6 +258,8 @@ public class ConsoleView {
         System.out.println("  8. Update Produkt");
         System.out.println("  9. Delete Produkt");
         System.out.println(" 10. List all Produkt");
+        System.out.println("  11. Filter Charakter");
+        System.out.println("  12.Sort Products for Charakter");
         System.out.println("  0. Exit");
         System.out.print("Enter your option: ");
     }
@@ -354,12 +516,40 @@ public class ConsoleView {
     }
 
 
+    private void filterCharakter() {
+        System.out.println("Enter the Stadt to filter by:");
+        String stadt = scanner.nextLine();
 
+        // Assuming your controller exposes a filter method:
+        List<Charakter> filteredVereine = controller.filterCharakter(stadt);
 
+        if (filteredVereine.isEmpty()) {
+            System.out.println("No charakter found in " + stadt + ".");
+        } else {
+            System.out.println("Vereine in " + stadt + ":");
+            for (Charakter v : filteredVereine) {
+                System.out.println(v);
+            }
+        }
+    }
 
+    private void sortProductsForCharakter() {
+        System.out.println("\n[Sort Prod for Charakter by Preis]");
+        System.out.print("Enter Charalter ID: ");
+        int vereinId = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter sorting order (A for ascending, D for descending): ");
+        String order = scanner.nextLine();
+        boolean ascending = order.equalsIgnoreCase("A");
 
-
-
+        // Call the controller method which filters and sorts the Spieler.
+        List<Produkt> sortedSpieler = controller.sortProductsForChark(vereinId, ascending);
+        if (sortedSpieler.isEmpty()) {
+            System.out.println("No Product found for Charakter with ID " + vereinId);
+        } else {
+            System.out.println("Sorted Products:");
+            sortedSpieler.forEach(spieler -> System.out.println(spieler));
+        }
+    }
 
 
 
